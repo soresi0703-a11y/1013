@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MOONJAM 月釀研究所｜A Little Jar of Unfinished Dreams</title>
+
+  <!-- Google Fonts: High-contrast Serif + Noto Serif TC + Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Serif+TC:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#F6F0E5',
+            burgundy: '#74313C',
+            'moonlight-yellow': '#EBCB72',
+            'citrus-orange': '#D98A4C',
+            'sage-green': '#87917A',
+            'dark-brown': '#352820',
+          },
+          fontFamily: {
+            serif: ['Cinzel', 'Noto Serif TC', 'serif'],
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            zhserif: ['Noto Serif TC', 'serif'],
+            mono: ['Courier New', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg-cream: #F6F0E5;
+      --color-burgundy: #74313C;
+      --color-dark-brown: #352820;
+    }
+
+    body {
+      background-color: var(--bg-cream);
+      color: var(--color-dark-brown);
+      font-family: 'Plus Jakarta Sans', 'Noto Serif TC', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .sr-only-text {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* ANIMATION 01: Disintegrate Char Styles */
+    .disintegrate-container {
+      display: inline-block;
+      position: relative;
+      cursor: default;
+    }
+
+    .disintegrate-char {
+      display: inline-block;
+      transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), 
+                  opacity 0.65s ease, 
+                  filter 0.65s ease;
+      will-change: transform, opacity, filter;
+    }
+
+    /* ANIMATION 02: Letter Spacing Expansion */
+    .spacing-expand {
+      display: inline-block;
+      transition: letter-spacing 0.45s cubic-bezier(0.25, 1, 0.5, 1), color 0.3s ease;
+      will-change: letter-spacing;
+    }
+    .spacing-expand:hover {
+      letter-spacing: 0.18em;
+      color: var(--color-burgundy);
+    }
+
+    .nav-link {
+      position: relative;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0%;
+      height: 1.5px;
+      background-color: #74313C;
+      transition: width 0.35s ease-out;
+    }
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* ANIMATION 03: Reassemble Char Styles */
+    .reassemble-container {
+      display: inline-block;
+      position: relative;
+      cursor: pointer;
+    }
+    .reassemble-char {
+      display: inline-block;
+      transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.45s ease;
+      will-change: transform, opacity;
+    }
+
+    /* ANIMATION 04: Typewriter Cursor */
+    .typewriter-cursor::after {
+      content: '|';
+      display: inline-block;
+      animation: blink 0.8s infinite;
+      color: #74313C;
+      margin-left: 2px;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* Marquee Infinite Loop */
+    @keyframes marquee {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+      display: inline-flex;
+      white-space: nowrap;
+      animation: marquee 28s linear infinite;
+    }
+    .marquee-container:hover .animate-marquee {
+      animation-play-state: paused;
+    }
+    .marquee-container:hover .marquee-symbol {
+      transform: rotate(45deg);
+      transition: transform 0.5s ease;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F6F0E5;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #74313C;
+      border-radius: 3px;
+    }
+
+    .btn-primary {
+      background-color: #F6F0E5;
+      color: #74313C;
+      border: 1px solid #74313C;
+      transition: all 0.28s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .btn-primary:hover {
+      background-color: #74313C;
+      color: #F6F0E5;
+      transform: scale(1.02);
+      letter-spacing: 0.05em;
+    }
+    .btn-primary:active {
+      transform: scale(0.96);
+    }
+
+    .btn-secondary {
+      background-color: #74313C;
+      color: #F6F0E5;
+      border: 1px solid #74313C;
+      transition: all 0.28s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .btn-secondary:hover {
+      background-color: transparent;
+      color: #74313C;
+      transform: scale(1.02);
+    }
+    .btn-secondary:active {
+      transform: scale(0.96);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .disintegrate-char, .spacing-expand, .reassemble-char, .animate-marquee {
+        transition: none !important;
+        animation: none !important;
+        transform: none !important;
+      }
+    }
+  </style>
+</head>
+<body class="relative antialiased selection:bg-burgundy selection:text-cream">
+
+  <!-- ==========================================
+       SECTION 01: NAVIGATION BAR
+  =========================================== -->
+  <header id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-300 py-5 px-6 md:px-12 border-b border-transparent">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-burgundy" aria-label="MOONJAM 月釀研究所 首頁">
+        <div class="w-9 h-9 rounded-full border border-burgundy flex items-center justify-center text-burgundy group-hover:rotate-45 transition-transform duration-500 bg-cream/40">
+          <i data-lucide="moon" class="w-4 h-4 fill-burgundy"></i>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-serif font-bold text-lg md:text-xl tracking-wider text-burgundy leading-none">MOONJAM</span>
+          <span class="text-[10px] font-zhserif tracking-widest text-burgundy/80 mt-0.5">月釀研究所</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Items -->
+      <nav class="hidden md:flex items-center gap-8 text-xs font-semibold tracking-widest text-burgundy uppercase">
+        <a href="#story" class="nav-link spacing-expand py-1">OUR STORY</a>
+        <a href="#flavors" class="nav-link spacing-expand py-1">FLAVOR FILES</a>
+        <a href="#lab-ai" class="nav-link spacing-expand py-1 text-citrus-orange font-bold">EMOTION LAB ✨</a>
+        <a href="#values" class="nav-link spacing-expand py-1">OUR VALUES</a>
+        <a href="#contact" class="nav-link spacing-expand py-1">CONTACT</a>
+      </nav>
+
+      <!-- Desktop Action Button -->
+      <div class="hidden md:block">
+        <a href="#flavors" class="btn-primary px-5 py-2.5 text-xs font-bold tracking-widest uppercase inline-flex items-center gap-2 group">
+          <span>EXPLORE FLAVORS</span>
+          <i data-lucide="arrow-right" class="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1"></i>
+        </a>
+      </div>
+
+      <!-- Mobile Hamburger Menu Button -->
+      <button id="mobile-menu-btn" aria-label="開啟選單" class="md:hidden p-2 text-burgundy focus:outline-none focus:ring-2 focus:ring-burgundy/40 rounded">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+
+    </div>
+
+    <!-- Mobile Drawer Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 bg-cream z-50 flex flex-col justify-center items-center gap-8 text-center text-burgundy transition-transform duration-500 translate-x-full md:hidden border-l border-burgundy/20 shadow-2xl">
+      <button id="mobile-menu-close" aria-label="關閉選單" class="absolute top-6 right-6 p-3 text-burgundy focus:outline-none">
+        <i data-lucide="x" class="w-7 h-7"></i>
+      </button>
+
+      <div class="space-y-2 mb-4">
+        <span class="text-xs font-mono text-burgundy/60 tracking-widest">NAVIGATION ARCHIVE</span>
+        <h2 class="font-serif text-2xl font-bold text-burgundy">MOONJAM LAB</h2>
+      </div>
+
+      <nav class="flex flex-col gap-6 font-serif text-2xl font-bold tracking-widest">
+        <a href="#story" class="mobile-nav-link hover:text-citrus-orange transition-colors">OUR STORY</a>
+        <a href="#flavors" class="mobile-nav-link hover:text-citrus-orange transition-colors">FLAVOR FILES</a>
+        <a href="#lab-ai" class="mobile-nav-link text-citrus-orange transition-colors">EMOTION LAB ✨</a>
+        <a href="#values" class="mobile-nav-link hover:text-citrus-orange transition-colors">OUR VALUES</a>
+        <a href="#contact" class="mobile-nav-link hover:text-citrus-orange transition-colors">CONTACT</a>
+      </nav>
+
+      <a href="#flavors" class="mobile-nav-link mt-6 btn-secondary px-8 py-3 text-xs font-bold tracking-widest uppercase">
+        EXPLORE FLAVORS
+      </a>
+    </div>
+  </header>
+
+  <!-- ==========================================
+       SECTION 02: HERO SECTION
+  =========================================== -->
+  <section class="relative min-h-screen pt-32 pb-20 px-6 md:px-12 flex flex-col justify-center overflow-hidden border-b border-dark-brown/10">
+    
+    <div class="absolute top-20 right-12 opacity-15 pointer-events-none animate-pulse" style="animation-duration: 6s;">
+      <i data-lucide="sparkles" class="w-32 h-32 text-burgundy"></i>
+    </div>
+    <div class="absolute bottom-12 left-10 opacity-10 pointer-events-none">
+      <i data-lucide="moon" class="w-48 h-48 text-burgundy"></i>
+    </div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-moonlight-yellow/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center z-10">
+      
+      <!-- Left Column: Typewriter Title & Copy -->
+      <div class="lg:col-span-7 space-y-6">
+        
+        <div class="inline-flex items-center gap-2 px-3 py-1 border border-burgundy/30 text-[11px] font-mono text-burgundy uppercase bg-cream/80 backdrop-blur-sm">
+          <span class="w-2 h-2 rounded-full bg-burgundy animate-ping"></span>
+          MOONJAM ARCHIVE / NO. 001–003
+        </div>
+
+        <h1 class="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold leading-tight text-burgundy tracking-tight min-h-[140px] sm:min-h-[190px]">
+          <span id="hero-line-1" class="block"></span>
+          <span id="hero-line-2" class="block text-citrus-orange"></span>
+        </h1>
+
+        <div class="space-y-3 max-w-xl">
+          <p class="font-zhserif text-xl sm:text-2xl font-semibold text-dark-brown opacity-0 transition-opacity duration-1000" id="hero-subtitle">
+            每一種情緒，都有自己的味道。
+          </p>
+          <p class="text-dark-brown/80 leading-relaxed text-sm sm:text-base font-sans opacity-0 transition-opacity duration-1000" id="hero-copy">
+            在月亮升起之後，我們開始釀造那些無法被命名的心情。將遺忘的夢與當季水果切面一併低溫慢熬，封存成日常裡的溫柔。
+          </p>
+        </div>
+
+        <div class="pt-4 flex flex-wrap gap-4 items-center opacity-0 transition-all duration-1000 transform translate-y-4" id="hero-cta">
+          <a href="#flavors" class="btn-secondary px-7 py-3.5 text-xs font-bold tracking-widest uppercase inline-flex items-center gap-3 group">
+            <span>EXPLORE THE FLAVORS</span>
+            <i data-lucide="arrow-right" class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"></i>
+          </a>
+          <a href="#story" class="btn-primary px-7 py-3.5 text-xs font-bold tracking-widest uppercase">
+            DISCOVER OUR STORY
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Editorial Visual Composition (Strawberry Fruit Specimen) -->
+      <div class="lg:col-span-5 relative flex justify-center items-center">
+        <div class="relative w-full max-w-md aspect-[4/5] border border-burgundy/30 p-4 bg-cream shadow-2xl flex flex-col justify-between overflow-hidden group">
+          
+          <div class="absolute inset-0 bg-[radial-gradient(#74313C_1px,transparent_1px)] [background-size:16px_16px] opacity-10 pointer-events-none"></div>
+
+          <div class="flex justify-between items-start z-10">
+            <span class="text-[10px] font-mono tracking-widest text-burgundy/70 border-b border-burgundy/20 pb-0.5">FRUIT EXTRACT SPECIMEN</span>
+            <div class="flex items-center gap-1 text-moonlight-yellow">
+              <i data-lucide="star" class="w-3.5 h-3.5 fill-moonlight-yellow"></i>
+              <span class="text-[10px] font-mono text-burgundy/80">00:00 AM</span>
+            </div>
+          </div>
+
+          <!-- Pure Strawberry Fruit Specimen Image -->
+          <div class="relative z-10 my-auto flex justify-center items-center py-6">
+            <div class="relative w-64 h-64 rounded-full border-2 border-burgundy/20 p-2 group-hover:border-burgundy/50 transition-colors duration-500">
+              <img src="https://images.unsplash.com/photo-1464965911861-746a04b4bca6?auto=format&fit=crop&w=800&q=80" 
+                   alt="月釀研究所 鮮紅草莓果實標本" 
+                   class="w-full h-full object-cover rounded-full shadow-xl transition-transform duration-700 group-hover:scale-105" />
+              <div class="absolute -bottom-2 -right-2 w-16 h-16 rounded-full bg-burgundy text-cream text-[9px] font-mono flex items-center justify-center border-2 border-cream shadow-lg rotate-12">
+                100% STRAWBERRY
+              </div>
+            </div>
+          </div>
+
+          <div class="z-10 bg-cream/90 backdrop-blur-sm p-3 border-t border-burgundy/20 flex justify-between items-center text-xs">
+            <div>
+              <p class="font-serif font-bold text-burgundy">STRAWBERRY SPECIMEN</p>
+              <p class="text-[10px] text-dark-brown/70 font-mono">FRESH CUT STRAWBERRY & ROSE</p>
+            </div>
+            <i data-lucide="flask-conical" class="w-4 h-4 text-burgundy/60"></i>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SECTION 03: BRAND MARQUEE BANNER
+  =========================================== -->
+  <section class="bg-burgundy text-cream py-4 overflow-hidden border-y border-burgundy cursor-pointer marquee-container">
+    <div class="animate-marquee flex items-center gap-10 font-serif text-base sm:text-lg tracking-widest uppercase">
+      
+      <span class="spacing-expand">FRUIT</span>
+      <i data-lucide="moon" class="w-4 h-4 text-moonlight-yellow marquee-symbol"></i>
+      <span class="spacing-expand">MEMORY</span>
+      <i data-lucide="sparkles" class="w-4 h-4 text-moonlight-yellow marquee-symbol"></i>
+      <span class="spacing-expand">MOONLIGHT</span>
+      <i data-lucide="flower" class="w-4 h-4 text-moonlight-yellow marquee-symbol"></i>
+      <span class="spacing-expand">A LITTLE SWEETNESS</span>
+      <i data-lucide="star" class="w-4 h-4 text-moonlight-yellow marquee-symbol"></i>
+
+      <span class="spacing-expand">FRUIT</span>
+      <i data-lucide="moon" class="w-4 h-4 text-moonlight-yellow marquee-symbol"></i>
+      <span class="spacing-expand">MEMORY</span>
+      <i data-lucide="sparkles" class="w-4 h-4 text-moonlight-yellow marquee-symbol"></i>
+      <span class="spacing-expand">MOONLIGHT</span>
+      <i data-lucide="flower" class="w-4 h-4 text-moonlight-yellow marquee-symbol"></i>
+      <span class="spacing-expand">A LITTLE SWEETNESS</span>
+      <i data-lucide="star" class="w-4 h-4 text-moonlight-yellow marquee-symbol"></i>
+
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SECTION 04: OUR STORY SECTION
+  =========================================== -->
+  <section id="story" class="py-24 px-6 md:px-12 max-w-7xl mx-auto border-b border-dark-brown/10">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+      
+      <!-- Photo Specimen Collage -->
+      <div class="lg:col-span-5 order-2 lg:order-1 relative">
+        <div class="relative z-10 border border-burgundy/30 p-3 bg-cream shadow-xl">
+          <!-- Citrus Specimen -->
+          <img src="https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?auto=format&fit=crop&w=800&q=80" 
+               alt="月釀研究所 鮮橙與柑橘切片標本" 
+               class="w-full h-80 object-cover" />
+          <div class="mt-3 flex justify-between items-center text-[10px] font-mono text-dark-brown/60">
+            <span>FILE: FRESH_CITRUS_SLICE.JPG</span>
+            <span>TEMP: SLOW COOK 85°C</span>
+          </div>
+        </div>
+
+        <div class="absolute -bottom-8 -right-6 w-3/5 z-20 border border-burgundy/30 p-2 bg-cream shadow-2xl hidden sm:block">
+          <!-- Strawberry Specimen -->
+          <img src="https://images.unsplash.com/photo-1464965911861-746a04b4bca6?auto=format&fit=crop&w=600&q=80" 
+               alt="鮮紅草莓果實標本" 
+               class="w-full h-36 object-cover" />
+        </div>
+      </div>
+
+      <!-- Story Text Narrative -->
+      <div class="lg:col-span-7 order-1 lg:order-2 space-y-6">
+        
+        <div class="inline-block text-xs font-mono tracking-widest text-burgundy uppercase border-b border-burgundy/30 pb-1">
+          CHAPTER 01 / LAB ORIGIN
+        </div>
+
+        <h2 class="font-serif text-3xl sm:text-5xl font-bold text-burgundy leading-tight disintegrate-target">
+          A RECIPE FOR THE UNFORGOTTEN.
+        </h2>
+
+        <h3 class="font-zhserif text-lg sm:text-xl font-semibold text-citrus-orange scroll-reveal">
+          為那些尚未遺忘的瞬間，熬煮一份配方。
+        </h3>
+
+        <div class="space-y-4 text-dark-brown/85 leading-relaxed text-sm sm:text-base font-sans">
+          <p class="scroll-reveal">
+            傳說在城市的月亮升起之後，有一間只在深夜營業的研究所。
+          </p>
+          <p class="scroll-reveal">
+            研究員收集人們遺忘的夢、沒有說出口的話，以及那些來不及珍惜的小小瞬間，將它們與當季當地的原生果實（鮮紅草莓、暖陽柑橘、蜜桃白桃）一起慢慢熬煮。
+          </p>
+          <p class="scroll-reveal">
+            酸甜的草莓保存了初次相遇的悸動，微苦的柑橘封存了長大後的遺憾，而帶有花香的白桃，則留住了那些不必急著回答的夜晚。
+          </p>
+          <p class="scroll-reveal font-zhserif font-semibold text-burgundy pt-2 border-l-2 border-burgundy pl-4 italic">
+            每一罐果醬，都是一份被保存下來的情緒。
+          </p>
+          <p class="scroll-reveal">
+            月釀研究所不製造快樂，也不販賣完美。它只是把生活裡難以形容的感受，裝進一只小小的玻璃罐裡。
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SECTION 05: FLAVOR FILES (PRODUCTS)
+  =========================================== -->
+  <section id="flavors" class="py-24 px-6 md:px-12 bg-cream">
+    <div class="max-w-7xl mx-auto space-y-16">
+      
+      <div class="text-center space-y-4 max-w-2xl mx-auto">
+        <div class="inline-flex items-center gap-2 px-3 py-1 border border-burgundy/30 text-xs font-mono text-burgundy">
+          <i data-lucide="flask-conical" class="w-3.5 h-3.5"></i>
+          FLAVOR SPECIMENS
+        </div>
+
+        <h2 id="reassemble-heading" class="font-serif text-3xl sm:text-5xl font-bold text-burgundy tracking-tight cursor-pointer py-2">
+          THREE FLAVORS, THREE MEMORIES.
+        </h2>
+
+        <p class="font-zhserif text-lg text-dark-brown/80 scroll-reveal">
+          三種味道，三段被保存的記憶。
+        </p>
+      </div>
+
+      <!-- Product Cards Container (Dynamically rendered from Single Source of Truth `PRODUCTS`) -->
+      <div id="product-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 items-stretch">
+        <!-- JS populates cards here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SECTION 05.5: AI EMOTION BREWING LAB
+  =========================================== -->
+  <section id="lab-ai" class="py-24 px-6 md:px-12 bg-burgundy/5 border-y border-burgundy/20 relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-96 h-96 bg-moonlight-yellow/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-5xl mx-auto space-y-12 relative z-10">
+      
+      <div class="text-center space-y-4 max-w-2xl mx-auto">
+        <div class="inline-flex items-center gap-2 px-3 py-1 border border-burgundy/40 text-xs font-mono text-burgundy bg-cream/80 backdrop-blur-sm">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-citrus-orange animate-spin" style="animation-duration: 8s;"></i>
+          GEMINI AI EXPERIMENT / NIGHT EXTRACTOR
+        </div>
+
+        <h2 class="font-serif text-3xl sm:text-5xl font-bold text-burgundy tracking-tight">
+          BREW YOUR UNNAMED EMOTION
+        </h2>
+
+        <p class="font-zhserif text-lg text-dark-brown/80">
+          輸入你此刻的心情或一段難以說出口的話，讓月釀 AI 研究員為你熬煮專屬的情緒果醬配方。
+        </p>
+      </div>
+
+      <!-- Interactive AI Form Box -->
+      <div class="bg-cream border border-burgundy/40 p-6 sm:p-10 shadow-xl space-y-6">
+        
+        <div class="space-y-2">
+          <p class="text-xs font-mono text-burgundy/80 uppercase tracking-widest">SELECT AN EMOTIONAL SPECIMEN / 選擇情緒標籤：</p>
+          <div class="flex flex-wrap gap-2 text-xs">
+            <button onclick="selectEmotionChip('深夜一人獨處的寂寞與沉澱')" class="px-3 py-1.5 border border-burgundy/30 bg-cream hover:bg-burgundy hover:text-cream transition-colors rounded-full font-zhserif">
+              🌙 深夜獨處的沉澱
+            </button>
+            <button onclick="selectEmotionChip('與好久不見的老朋友巧遇，帶有歲月感的暖意')" class="px-3 py-1.5 border border-burgundy/30 bg-cream hover:bg-burgundy hover:text-cream transition-colors rounded-full font-zhserif">
+              ☕ 舊友重逢的溫熱
+            </button>
+            <button onclick="selectEmotionChip('渴望逃離擁擠城市，奔向海邊吹風的自由')" class="px-3 py-1.5 border border-burgundy/30 bg-cream hover:bg-burgundy hover:text-cream transition-colors rounded-full font-zhserif">
+              🌊 渴望邊界外的自由
+            </button>
+            <button onclick="selectEmotionChip('告別一段感情後的釋懷與微酸甜感')" class="px-3 py-1.5 border border-burgundy/30 bg-cream hover:bg-burgundy hover:text-cream transition-colors rounded-full font-zhserif">
+              🍂 釋懷之後的微酸
+            </button>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <label for="emotion-input" class="text-xs font-mono text-burgundy font-bold tracking-wider block">YOUR EMOTION / MEMORY / WORD / 心情與記憶寫真：</label>
+          <textarea id="emotion-input" rows="3" placeholder="例如：今天午後突然下了一場大雨，躲在騎樓下，想起小時候在阿嬤家院子摘採芒果與白桃的夏天..." class="w-full p-4 bg-cream/50 border border-burgundy/30 text-dark-brown text-sm font-sans focus:outline-none focus:ring-2 focus:ring-burgundy/50 resize-none rounded-none placeholder:text-dark-brown/40"></textarea>
+        </div>
+
+        <div class="flex justify-between items-center pt-2">
+          <span class="text-[11px] font-mono text-dark-brown/60">POWERED BY GEMINI 3 FLASH</span>
+          <button id="brew-btn" onclick="brewEmotionExtract()" class="btn-secondary px-8 py-3.5 text-xs font-bold tracking-widest uppercase inline-flex items-center gap-3">
+            <i data-lucide="flame" class="w-4 h-4 text-moonlight-yellow"></i>
+            <span>BREW EXTRACT / 開始情緒釀造</span>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Loading Indicator -->
+      <div id="ai-loading" class="hidden text-center py-12 space-y-4">
+        <div class="inline-block p-4 rounded-full border border-burgundy/30 bg-cream animate-bounce">
+          <i data-lucide="flask-conical" class="w-8 h-8 text-burgundy animate-pulse"></i>
+        </div>
+        <p class="font-serif text-lg text-burgundy font-bold">EXTRACTING EMOTIONAL SPECIMEN...</p>
+        <p class="font-zhserif text-xs text-dark-brown/70">月釀研究所正將您的情緒與當季果實熬煮封存中...</p>
+      </div>
+
+      <!-- AI Result Card Container -->
+      <div id="ai-result-card" class="hidden border-2 border-burgundy p-6 sm:p-10 bg-cream shadow-2xl space-y-8 relative">
+        <div class="absolute top-4 right-4 text-xs font-mono text-burgundy/60 border border-burgundy/30 px-2 py-1">
+          LAB CERTIFIED
+        </div>
+
+        <div class="space-y-2 border-b border-burgundy/20 pb-4">
+          <span id="ai-batch-code" class="font-mono text-xs text-citrus-orange font-bold tracking-widest block">EXTRACT BATCH #000</span>
+          <h3 id="ai-title-en" class="font-serif text-3xl sm:text-4xl font-bold text-burgundy">TITLE EN</h3>
+          <p id="ai-title-zh" class="font-zhserif text-2xl font-bold text-dark-brown">標題中文</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          <div class="lg:col-span-7 space-y-4 text-sm text-dark-brown/90">
+            <div class="bg-burgundy/5 p-4 border-l-2 border-burgundy space-y-1">
+              <p class="font-mono text-xs font-bold text-burgundy uppercase">EMOTIONAL NOTE / 情緒註解</p>
+              <p id="ai-emotion-note" class="font-zhserif text-dark-brown italic">註解...</p>
+            </div>
+
+            <div class="space-y-1">
+              <p class="font-bold text-burgundy font-zhserif">【配方調和水果原料】</p>
+              <p id="ai-ingredients" class="font-mono text-xs text-dark-brown/80">原料...</p>
+            </div>
+
+            <div class="space-y-1">
+              <p class="font-bold text-burgundy font-zhserif">【風味氣味層次】</p>
+              <p id="ai-flavor-profile" class="leading-relaxed">描述...</p>
+            </div>
+
+            <div class="space-y-1">
+              <p class="font-bold text-burgundy font-zhserif">【建議夜間享用情境】</p>
+              <p id="ai-pairing" class="text-xs text-dark-brown/80">情境...</p>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 space-y-4">
+            <div class="aspect-square border border-burgundy/30 bg-burgundy/5 p-2 flex flex-col items-center justify-center relative overflow-hidden group shadow-inner">
+              <div id="ai-img-placeholder" class="text-center p-6 space-y-3">
+                <i data-lucide="sparkles" class="w-10 h-10 text-burgundy/40 mx-auto"></i>
+                <p class="text-xs font-mono text-burgundy/70">GENERATE SPECIMEN VISUAL</p>
+                <p class="text-[11px] text-dark-brown/60">運用 Gemini AI 將此情緒果醬繪製為水果標本卡</p>
+              </div>
+              <img id="ai-specimen-img" src="" alt="AI Generated Fruit Jam Specimen" class="hidden w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            </div>
+
+            <button id="gen-img-btn" onclick="generateSpecimenImage()" class="w-full btn-primary py-3 text-xs font-bold tracking-widest uppercase inline-flex justify-center items-center gap-2">
+              <i data-lucide="image" class="w-4 h-4"></i>
+              <span>VISUALIZE SPECIMEN / 生成果醬標本圖</span>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SECTION 06: BRAND VALUES
+  =========================================== -->
+  <section id="values" class="py-24 px-6 md:px-12 bg-cream border-t border-dark-brown/10">
+    <div class="max-w-7xl mx-auto space-y-16">
+      
+      <div class="text-center space-y-2">
+        <span class="text-xs font-mono text-burgundy tracking-widest uppercase">OUR GUIDING PRINCIPLES</span>
+        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-burgundy">月釀研究所 三大價值</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+        
+        <div class="border-t-2 border-burgundy pt-6 space-y-4 scroll-reveal">
+          <span class="font-serif text-6xl font-bold text-burgundy/20 block">01</span>
+          <h3 class="font-serif text-xl font-bold text-burgundy tracking-wider spacing-expand cursor-default">
+            FEELINGS INTO FLAVORS
+          </h3>
+          <h4 class="font-zhserif text-lg font-semibold text-dark-brown">01｜情緒風味化</h4>
+          <p class="text-sm text-dark-brown/80 leading-relaxed">
+            將抽象情緒轉化為可品嚐的風味，讓食品成為日常的情感表達與自處儀式。
+          </p>
+        </div>
+
+        <div class="border-t-2 border-burgundy pt-6 space-y-4 scroll-reveal">
+          <span class="font-serif text-6xl font-bold text-burgundy/20 block">02</span>
+          <h3 class="font-serif text-xl font-bold text-burgundy tracking-wider spacing-expand cursor-default">
+            RESPECT THE FRUIT
+          </h3>
+          <h4 class="font-zhserif text-lg font-semibold text-dark-brown">02｜珍惜果物本味</h4>
+          <p class="text-sm text-dark-brown/80 leading-relaxed">
+            以水果本身的香氣、酸度與口感作為風味設計起點，重視季節與在地食材的原生姿態。
+          </p>
+        </div>
+
+        <div class="border-t-2 border-burgundy pt-6 space-y-4 scroll-reveal">
+          <span class="font-serif text-6xl font-bold text-burgundy/20 block">03</span>
+          <h3 class="font-serif text-xl font-bold text-burgundy tracking-wider spacing-expand cursor-default">
+            KEEP THE LITTLE MOMENTS
+          </h3>
+          <h4 class="font-zhserif text-lg font-semibold text-dark-brown">03｜收藏生活片刻</h4>
+          <p class="text-sm text-dark-brown/80 leading-relaxed">
+            將每罐果醬設計成具有故事性、雙重口感、值得收藏的日常物件，封存微小的感動。
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SECTION 07: PAIRING SUGGESTIONS & FOOTER
+  =========================================== -->
+  <section id="contact" class="py-24 px-6 md:px-12 bg-burgundy text-cream">
+    <div class="max-w-7xl mx-auto space-y-20">
+      
+      <div class="text-center space-y-6 max-w-3xl mx-auto">
+        <h2 class="font-serif text-3xl sm:text-5xl font-bold leading-tight tracking-wide spacing-expand scroll-reveal">
+          A LITTLE SWEETNESS,<br />FOR YOUR ORDINARY DAYS.
+        </h2>
+        <p class="font-zhserif text-lg text-cream/80 leading-relaxed scroll-reveal">
+          有些日子不需要特別的理由，只要一片吐司、一杯茶，和一點屬於自己的甜。
+        </p>
+
+        <div class="flex flex-wrap justify-center gap-4 text-xs font-mono pt-4">
+          <span class="px-4 py-2 border border-cream/30 rounded-full hover:border-moonlight-yellow transition-colors cursor-default">
+            🍞 烤吐司 TOAST
+          </span>
+          <span class="px-4 py-2 border border-cream/30 rounded-full hover:border-moonlight-yellow transition-colors cursor-default">
+            🥣 希臘優格 YOGURT
+          </span>
+          <span class="px-4 py-2 border border-cream/30 rounded-full hover:border-moonlight-yellow transition-colors cursor-default">
+            🥞 舒芙蕾鬆餅 PANCAKE
+          </span>
+          <span class="px-4 py-2 border border-cream/30 rounded-full hover:border-moonlight-yellow transition-colors cursor-default">
+            🫖 深夜溫茶 HOT TEA
+          </span>
+        </div>
+
+        <div class="pt-6">
+          <a href="#flavors" class="btn-primary px-8 py-4 text-xs font-bold tracking-widest uppercase inline-flex items-center gap-3">
+            <span>FIND YOUR FLAVOR</span>
+            <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="border-t border-cream/20"></div>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-start text-sm">
+        <div class="md:col-span-5 space-y-4">
+          <div class="flex items-center gap-3">
+            <i data-lucide="moon" class="w-5 h-5 text-moonlight-yellow fill-moonlight-yellow"></i>
+            <span class="font-serif text-xl font-bold tracking-wider">MOONJAM 月釀研究所</span>
+          </div>
+          <p class="text-xs text-cream/70 font-mono tracking-widest">
+            A LITTLE JAR OF UNFINISHED DREAMS.
+          </p>
+          <p class="text-cream/80 text-xs leading-relaxed max-w-sm">
+            深夜營業的果物味覺實驗室。我們將情緒與季節果實一起低溫細熬，獻給每個需要被溫柔對待的靈魂。
+          </p>
+        </div>
+
+        <div class="md:col-span-3 space-y-3">
+          <p class="font-serif text-xs font-bold tracking-widest text-moonlight-yellow uppercase">EXPLORE ARCHIVE</p>
+          <ul class="space-y-2 text-cream/80 text-xs">
+            <li><a href="#story" class="hover:text-cream transition-colors">OUR STORY 品牌故事</a></li>
+            <li><a href="#flavors" class="hover:text-cream transition-colors">FLAVOR FILES 研究檔案</a></li>
+            <li><a href="#values" class="hover:text-cream transition-colors">OUR VALUES 核心價值</a></li>
+          </ul>
+        </div>
+
+        <div class="md:col-span-4 space-y-3">
+          <p class="font-serif text-xs font-bold tracking-widest text-moonlight-yellow uppercase">LAB INFORMATION</p>
+          <p class="text-xs text-cream/80 font-mono">HOURS: Midnight to Dawn (00:00 - 06:00)</p>
+          <p class="text-xs text-cream/80 font-mono">CONTACT: hello@moonjam-lab.com</p>
+          <div class="flex gap-4 pt-2">
+            <a href="#" aria-label="Instagram" class="w-8 h-8 rounded-full border border-cream/30 flex items-center justify-center hover:border-cream transition-colors">
+              <i data-lucide="instagram" class="w-4 h-4"></i>
+            </a>
+            <a href="#" aria-label="Facebook" class="w-8 h-8 rounded-full border border-cream/30 flex items-center justify-center hover:border-cream transition-colors">
+              <i data-lucide="facebook" class="w-4 h-4"></i>
+            </a>
+            <a href="#" aria-label="Mail" class="w-8 h-8 rounded-full border border-cream/30 flex items-center justify-center hover:border-cream transition-colors">
+              <i data-lucide="mail" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center text-xs text-cream/50 pt-8 border-t border-cream/10 font-mono">
+        © 2026 MOONJAM LAB. ALL RIGHTS RESERVED. CONCEPT BRAND SPECIMEN.
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================
+       PRODUCT DETAIL MODAL DIALOG
+  =========================================== -->
+  <div id="product-modal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-dark-brown/70 backdrop-blur-sm flex justify-center items-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="relative w-full max-w-2xl bg-cream border border-burgundy p-6 sm:p-10 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto">
+      
+      <button onclick="closeProductModal()" aria-label="關閉商品詳情" class="absolute top-4 right-4 p-2 text-burgundy hover:rotate-90 transition-transform duration-300">
+        <i data-lucide="x" class="w-6 h-6"></i>
+      </button>
+
+      <div class="space-y-1 border-b border-burgundy/20 pb-4">
+        <span id="modal-code" class="text-xs font-mono text-burgundy tracking-widest block">PRODUCT 000</span>
+        <h3 id="modal-title-en" class="font-serif text-3xl font-bold text-burgundy">TITLE</h3>
+        <p id="modal-title-zh" class="font-zhserif text-xl font-semibold text-dark-brown">中文名稱</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 items-start">
+        <div class="relative overflow-hidden aspect-square border border-burgundy/20 bg-burgundy/5">
+          <img id="modal-img" src="" alt="Product Detail Fruit Specimen" class="w-full h-full object-cover shadow-md" />
+        </div>
+        <div class="space-y-3 text-sm text-dark-brown/80">
+          <p class="font-semibold text-burgundy font-zhserif">【風味特徵】</p>
+          <p id="modal-flavor" class="leading-relaxed text-xs sm:text-sm">描述...</p>
+          <p class="font-semibold text-burgundy font-zhserif pt-2">【主要水果原料】</p>
+          <p id="modal-ingredients" class="font-mono text-xs">原料...</p>
+        </div>
+      </div>
+
+      <div class="bg-burgundy/5 p-4 border border-burgundy/20 space-y-2">
+        <p class="text-xs font-semibold text-burgundy uppercase font-mono">RECOMMENDED PAIRING / 建議食用情境</p>
+        <p id="modal-pairing" class="text-xs text-dark-brown/80 leading-relaxed">情境...</p>
+      </div>
+
+      <div class="flex justify-between items-center pt-4 border-t border-burgundy/20">
+        <span id="modal-price" class="font-serif text-2xl font-bold text-burgundy">NT$ 0</span>
+        <button onclick="closeProductModal()" class="btn-secondary px-6 py-2.5 text-xs font-bold tracking-widest uppercase">
+          CLOSE FILE
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // ==========================================================
+    // UNIFIED SINGLE SOURCE OF TRUTH FOR PRODUCTS (PRODUCTS ARRAY)
+    // ==========================================================
+
+    // High Quality Vector Fallback Images (SVG Data URIs)
+    const SVG_FALLBACKS = {
+      strawberry: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 800 800"><rect width="100%" height="100%" fill="%23F6F0E5"/><rect x="40" y="40" width="720" height="720" fill="none" stroke="%2374313C" stroke-width="2"/><circle cx="400" cy="420" r="180" fill="%2374313C" opacity="0.1"/><path d="M400,240 C480,240 560,320 540,500 C520,620 400,660 400,660 C400,660 280,620 260,500 C240,320 320,240 400,240 Z" fill="%2374313C"/><path d="M370,220 C380,200 400,180 400,180 C400,180 420,200 430,220 C460,210 490,230 490,230 C470,250 440,250 440,250 C440,250 450,280 430,280 C410,260 400,250 400,250 C400,250 390,260 370,280 C350,280 360,250 360,250 C360,250 330,250 310,230 C310,230 340,210 370,220 Z" fill="%2387917A"/><circle cx="360" cy="360" r="8" fill="%23EBCB72"/><circle cx="440" cy="380" r="8" fill="%23EBCB72"/><circle cx="380" cy="460" r="8" fill="%23EBCB72"/><circle cx="430" cy="480" r="8" fill="%23EBCB72"/><circle cx="340" cy="480" r="8" fill="%23EBCB72"/><circle cx="400" cy="540" r="8" fill="%23EBCB72"/><text x="400" y="730" font-family="Cinzel,serif" font-size="28" font-weight="bold" fill="%2374313C" text-anchor="middle">FIRST BLUSH · STRAWBERRY</text></svg>`,
+      citrus: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 800 800"><rect width="100%" height="100%" fill="%23F6F0E5"/><rect x="40" y="40" width="720" height="720" fill="none" stroke="%2374313C" stroke-width="2"/><circle cx="400" cy="420" r="220" fill="%23D98A4C"/><circle cx="400" cy="420" r="190" fill="%23F6F0E5"/><circle cx="400" cy="420" r="170" fill="%23D98A4C" opacity="0.9"/><line x1="400" y1="250" x2="400" y2="590" stroke="%23F6F0E5" stroke-width="12"/><line x1="230" y1="420" x2="570" y2="420" stroke="%23F6F0E5" stroke-width="12"/><line x1="280" y1="300" x2="520" y2="540" stroke="%23F6F0E5" stroke-width="12"/><line x1="280" y1="540" x2="520" y2="300" stroke="%23F6F0E5" stroke-width="12"/><text x="400" y="730" font-family="Cinzel,serif" font-size="28" font-weight="bold" fill="%2374313C" text-anchor="middle">AFTERGLOW · CITRUS ORANGE</text></svg>`,
+      peach: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 800 800"><rect width="100%" height="100%" fill="%23F6F0E5"/><rect x="40" y="40" width="720" height="720" fill="none" stroke="%2374313C" stroke-width="2"/><circle cx="400" cy="430" r="210" fill="%23E8A89A"/><path d="M400,220 C400,220 380,340 400,640" stroke="%2374313C" stroke-width="6" fill="none" opacity="0.3"/><path d="M400,220 C430,160 500,160 520,200 C530,220 480,250 400,220 Z" fill="%2387917A"/><text x="400" y="730" font-family="Cinzel,serif" font-size="28" font-weight="bold" fill="%2374313C" text-anchor="middle">SOFT LANDING · WHITE PEACH</text></svg>`
+    };
+
+    const PRODUCTS = [
+      {
+        id: "strawberry-rose",
+        slug: "001",
+        code: "PRODUCT 001 / LAB ARCHIVE",
+        name: "初遇｜草莓玫瑰果醬",
+        englishName: "FIRST BLUSH",
+        price: "NT$ 260",
+        priceValue: 260,
+        ingredients: "草莓、玫瑰、原蔗糖",
+        description: "草莓的明亮酸甜與淡雅花香，描寫初次相遇時有點慌張卻忍不住期待的心情。",
+        flavor: "鮮紅草莓的明亮酸甜與淡雅玫瑰花香互相扣合，後韻帶有大馬士革玫瑰溫柔的草本餘香。描述初次相遇時有點慌張卻忍不住期待的心情。",
+        pairing: "微烤酸酵母吐司、無糖希臘優格、氣泡水調飲。",
+        image: "https://images.unsplash.com/photo-1589135233689-d5df3f380f2d?auto=format&fit=crop&w=800&q=80",
+        fallbackImage: SVG_FALLBACKS.strawberry,
+        imageAlt: "鮮紅草莓果實切片與新鮮草莓果醬玻璃罐",
+        themeColor: "#74313C",
+        accentBg: "bg-burgundy/10",
+        accentText: "text-burgundy",
+        tag: "情緒：悸動",
+        offsetClass: ""
+      },
+      {
+        id: "caramel-citrus",
+        slug: "002",
+        code: "PRODUCT 002 / LAB ARCHIVE",
+        name: "餘暉｜焦糖柑橘果醬",
+        englishName: "AFTERGLOW",
+        price: "NT$ 280",
+        priceValue: 280,
+        ingredients: "柑橘、焦糖、橙花水",
+        description: "柑橘的微苦與焦糖的醇厚交織，像日落後仍留在心裡的餘溫。",
+        flavor: "金黃柑橘果皮與鮮柑橘切片的微苦，與慢火深熬苦焦糖的醇厚層次交織，像日落後仍留在心裡的餘溫與遺憾。",
+        pairing: "硬質起司盤、肉桂捲抹醬、熱伯爵紅茶調飲。",
+        image: "https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?auto=format&fit=crop&w=800&q=80",
+        fallbackImage: SVG_FALLBACKS.citrus,
+        imageAlt: "切片新鮮橘子與金色焦糖柑橘果醬玻璃罐",
+        themeColor: "#D98A4C",
+        accentBg: "bg-citrus-orange/20",
+        accentText: "text-citrus-orange",
+        tag: "情緒：遺憾",
+        offsetClass: "lg:translate-y-6"
+      },
+      {
+        id: "white-peach-vanilla",
+        slug: "003",
+        code: "PRODUCT 003 / LAB ARCHIVE",
+        name: "安眠｜白桃香草果醬",
+        englishName: "SOFT LANDING",
+        price: "NT$ 300",
+        priceValue: 300,
+        ingredients: "白桃、香草、原蔗糖",
+        description: "柔和果香與溫潤香草，呈現像被棉被包住一樣的安心感。",
+        flavor: "熟成粉嫩白桃果肉與溫潤綿長的馬達加斯加香草籽，呈現像被厚重羽絨被包住一樣的安心質感。",
+        pairing: "美式鬆餅、熱洋甘菊茶、英式司康。",
+        image: "https://images.unsplash.com/photo-1595126730719-197e374de14b?auto=format&fit=crop&w=800&q=80",
+        fallbackImage: SVG_FALLBACKS.peach,
+        imageAlt: "粉嫩成熟白桃果實切面與香草白桃果醬玻璃罐",
+        themeColor: "#87917A",
+        accentBg: "bg-sage-green/20",
+        accentText: "text-sage-green",
+        tag: "情緒：安心",
+        offsetClass: ""
+      }
+    ];
+
+
+    // Image Error Handler to ensure strictly correct fallback SVG
+    function handleProductImageError(imgEl, productId) {
+      const product = PRODUCTS.find(p => p.id === productId);
+      if (product) {
+        imgEl.onerror = null; // Prevent recursion
+        imgEl.src = product.fallbackImage;
+      }
+    }
+
+    // Dynamic Rendering of Product Cards strictly binding from Single Source of Truth
+    function renderProductCards() {
+      const container = document.getElementById('product-cards-container');
+      if (!container) return;
+
+      container.innerHTML = PRODUCTS.map((p) => `
+        <article class="product-card group relative bg-cream border border-burgundy/30 p-6 flex flex-col justify-between transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 ${p.offsetClass}">
+          <div class="space-y-4">
+            <div class="flex justify-between items-center border-b border-burgundy/20 pb-3">
+              <span class="font-mono text-xs tracking-widest text-burgundy font-bold transition-colors group-hover:text-citrus-orange">
+                ${p.code}
+              </span>
+              <span class="text-xs px-2.5 py-0.5 ${p.accentBg} ${p.accentText} rounded-full font-zhserif">${p.tag}</span>
+            </div>
+
+            <div class="relative overflow-hidden aspect-square border border-burgundy/20 bg-burgundy/5">
+              <img src="${p.image}" 
+                   alt="${p.imageAlt}" 
+                   onerror="handleProductImageError(this, '${p.id}')"
+                   class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]" />
+              <div class="absolute inset-0 bg-burgundy/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+
+            <div>
+              <h3 class="product-title-en font-serif text-2xl font-bold text-burgundy tracking-wide spacing-expand">
+                ${p.englishName}
+              </h3>
+              <p class="font-zhserif text-lg font-semibold text-dark-brown mt-1">${p.name}</p>
+              <p class="text-xs text-dark-brown/60 font-mono mt-1">主要水果原料：${p.ingredients}</p>
+            </div>
+
+            <p class="text-sm text-dark-brown/80 leading-relaxed font-sans">
+              ${p.description}
+            </p>
+          </div>
+
+          <div class="mt-8 pt-4 border-t border-burgundy/20 flex items-center justify-between">
+            <span class="font-serif text-xl font-bold text-burgundy">${p.price}</span>
+            <button onclick="openProductModalById('${p.id}')" class="btn-primary px-4 py-2 text-xs font-bold tracking-wider uppercase inline-flex items-center gap-2 group-hover:bg-burgundy group-hover:text-cream">
+              <span>VIEW FLAVOR</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1"></i>
+            </button>
+          </div>
+        </article>
+      `).join('');
+
+      lucide.createIcons();
+    }
+
+    // Modal Control strictly derived from `PRODUCTS`
+    function openProductModalById(productId) {
+      const p = PRODUCTS.find(item => item.id === productId || item.slug === productId);
+      if (!p) return;
+
+      document.getElementById('modal-code').textContent = p.code;
+      document.getElementById('modal-title-en').textContent = p.englishName;
+      document.getElementById('modal-title-zh').textContent = p.name;
+      
+      const imgEl = document.getElementById('modal-img');
+      imgEl.onerror = () => handleProductImageError(imgEl, p.id);
+      imgEl.src = p.image;
+      imgEl.alt = p.imageAlt;
+
+      document.getElementById('modal-flavor').textContent = p.flavor;
+      document.getElementById('modal-ingredients').textContent = p.ingredients;
+      document.getElementById('modal-pairing').textContent = p.pairing;
+      document.getElementById('modal-price').textContent = p.price;
+
+      const modal = document.getElementById('product-modal');
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeProductModal() {
+      const modal = document.getElementById('product-modal');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      document.body.style.overflow = 'auto';
+    }
+
+    // Helper for backoff exponential fetch calls
+    async function fetchWithBackoff(url, options, maxRetries = 3) {
+      let delay = 1000;
+      for (let i = 0; i < maxRetries; i++) {
+        try {
+          const response = await fetch(url, options);
+          if (response.status === 429) {
+            await new Promise(res => setTimeout(res, delay));
+            delay *= 2;
+            continue;
+          }
+          return response;
+        } catch (err) {
+          if (i === maxRetries - 1) throw err;
+          await new Promise(res => setTimeout(res, delay));
+          delay *= 2;
+        }
+      }
+      return await fetch(url, options);
+    }
+
+    function selectEmotionChip(text) {
+      const textarea = document.getElementById('emotion-input');
+      textarea.value = text;
+      textarea.focus();
+    }
+
+    let currentJamResult = null;
+
+    // AI Brew Emotion Extract Call
+    async function brewEmotionExtract() {
+      const inputEl = document.getElementById('emotion-input');
+      const userText = inputEl.value.trim();
+
+      if (!userText) {
+        inputEl.classList.add('ring-2', 'ring-burgundy');
+        setTimeout(() => inputEl.classList.remove('ring-2', 'ring-burgundy'), 1500);
+        return;
+      }
+
+      const brewBtn = document.getElementById('brew-btn');
+      const loadingEl = document.getElementById('ai-loading');
+      const resultCard = document.getElementById('ai-result-card');
+
+      brewBtn.disabled = true;
+      brewBtn.classList.add('opacity-50', 'cursor-not-allowed');
+      loadingEl.classList.remove('hidden');
+      resultCard.classList.add('hidden');
+
+      document.getElementById('ai-specimen-img').classList.add('hidden');
+      document.getElementById('ai-img-placeholder').classList.remove('hidden');
+
+      const apiKey = "";
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+      const systemPrompt = `You are the lead artisanal jam developer at MOONJAM Moon Brew Laboratory (月釀研究所). 
+The user will input an emotion, memory, or unspoken feeling. You must translate this into a unique fruit jam preserve recipe.
+Return pure JSON with keys:
+- batchCode: (e.g., "EXTRACT BATCH #742")
+- titleEn: Poetic short English Jam name in ALL CAPS (e.g., "SOLITARY MOONLIGHT")
+- titleZh: Poetic Chinese title with fruit jam type (e.g., "寂月｜藍莓薰衣草果醬")
+- emotionNote: One sentence poetic description of this emotion.
+- ingredients: 3-4 natural fruit & botanical ingredients.
+- flavorProfile: 2 sentences describing tasting notes & texture.
+- pairing: Recommended evening pairing (e.g. sourdough toast, chamomile tea, yogurt).`;
+
+      const payload = {
+        contents: [{ parts: [{ text: userText }] }],
+        systemInstruction: { parts: [{ text: systemPrompt }] },
+        generationConfig: {
+          responseMimeType: "application/json"
+        }
+      };
+
+      try {
+        const response = await fetchWithBackoff(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+        const jsonText = result.candidates?.[0]?.content?.parts?.[0]?.text;
+
+        if (jsonText) {
+          const parsed = JSON.parse(jsonText);
+          currentJamResult = parsed;
+
+          document.getElementById('ai-batch-code').textContent = parsed.batchCode || 'EXTRACT BATCH #' + Math.floor(100 + Math.random() * 900);
+          document.getElementById('ai-title-en').textContent = parsed.titleEn;
+          document.getElementById('ai-title-zh').textContent = parsed.titleZh;
+          document.getElementById('ai-emotion-note').textContent = `「${parsed.emotionNote}」`;
+          document.getElementById('ai-ingredients').textContent = parsed.ingredients;
+          document.getElementById('ai-flavor-profile').textContent = parsed.flavorProfile;
+          document.getElementById('ai-pairing').textContent = parsed.pairing;
+
+          resultCard.classList.remove('hidden');
+          resultCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+          throw new Error("No response content");
+        }
+      } catch (err) {
+        console.error("Gemini API Error:", err);
+        document.getElementById('ai-batch-code').textContent = 'EXTRACT BATCH #888';
+        document.getElementById('ai-title-en').textContent = 'MIDNIGHT MELANCHOLY';
+        document.getElementById('ai-title-zh').textContent = '夜語｜藍莓薰衣草果醬';
+        document.getElementById('ai-emotion-note').textContent = '「將深夜無法發聲的凝重，化作溫柔沉靜的藍紫色甘甜。」';
+        document.getElementById('ai-ingredients').textContent = '高山野生藍莓、有機薰衣草花瓣、蘋果果膠、原蔗糖';
+        document.getElementById('ai-flavor-profile').textContent = '前味為微酸藍莓果香，中味帶出薰衣草舒緩草本氣息，後味留有溫和木質甜味。';
+        document.getElementById('ai-pairing').textContent = '熱洋甘菊茶、微烤司康餅、無糖希臘優格';
+        
+        resultCard.classList.remove('hidden');
+      } finally {
+        loadingEl.classList.add('hidden');
+        brewBtn.disabled = false;
+        brewBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        lucide.createIcons();
+      }
+    }
+
+    // AI Generate Image Visual Call via Gemini Flash Image model
+    async function generateSpecimenImage() {
+      if (!currentJamResult) return;
+
+      const genImgBtn = document.getElementById('gen-img-btn');
+      const placeholder = document.getElementById('ai-img-placeholder');
+      const imgEl = document.getElementById('ai-specimen-img');
+
+      genImgBtn.disabled = true;
+      genImgBtn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> GENERATING SPECIMEN...`;
+      lucide.createIcons();
+
+      const prompt = `Professional editorial food photography for a gourmet artisanal jam jar by MOONJAM Moon Brew Laboratory.
+Jam Title: ${currentJamResult.titleEn} (${currentJamResult.titleZh}).
+Ingredients: ${currentJamResult.ingredients}.
+Style: Botanical specimen card aesthetic, elegant glass jar filled with rich colored preserve, moody romantic lighting, cream background (#F6F0E5), deep burgundy accents, dark brown wood surface, high resolution.`;
+
+      const apiKey = "";
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image:generateContent?key=${apiKey}`;
+
+      const payload = {
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: {
+          responseModalities: ['IMAGE']
+        }
+      };
+
+      try {
+        const response = await fetchWithBackoff(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+        const part = result?.candidates?.[0]?.content?.parts?.find(p => p.inlineData);
+
+        if (part && part.inlineData) {
+          const mimeType = part.inlineData.mimeType || 'image/png';
+          const base64Data = part.inlineData.data;
+          imgEl.src = `data:${mimeType};base64,${base64Data}`;
+          placeholder.classList.add('hidden');
+          imgEl.classList.remove('hidden');
+        } else {
+          console.warn("No inline image data returned.");
+        }
+      } catch (err) {
+        console.error("Gemini Image API Error:", err);
+      } finally {
+        genImgBtn.disabled = false;
+        genImgBtn.innerHTML = `<i data-lucide="image" class="w-4 h-4"></i> REGENERATE VISUAL / 重新生成標本圖`;
+        lucide.createIcons();
+      }
+    }
+
+    // Initialize Page Elements & Dynamic Render
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Render Products dynamically from PRODUCTS object
+      renderProductCards();
+
+      // 2. Setup Navbar sticky behavior
+      const navbar = document.getElementById('navbar');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 40) {
+          navbar.classList.add('bg-cream/95', 'backdrop-blur-md', 'shadow-md', 'border-burgundy/10');
+          navbar.classList.remove('py-5');
+          navbar.classList.add('py-3');
+        } else {
+          navbar.classList.remove('bg-cream/95', 'backdrop-blur-md', 'shadow-md', 'border-burgundy/10');
+          navbar.classList.remove('py-3');
+          navbar.classList.add('py-5');
+        }
+      });
+
+      // 3. Mobile Menu setup
+      const mobileBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const mobileClose = document.getElementById('mobile-menu-close');
+      const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+
+      function openMobileMenu() {
+        mobileMenu.classList.remove('translate-x-full');
+      }
+      function closeMobileMenu() {
+        mobileMenu.classList.add('translate-x-full');
+      }
+
+      if (mobileBtn && mobileClose) {
+        mobileBtn.addEventListener('click', openMobileMenu);
+        mobileClose.addEventListener('click', closeMobileMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', closeMobileMenu));
+      }
+
+      // 4. ANIMATION 04: Typewriter Logic for Hero Header
+      const line1 = "EVERY FEELING";
+      const line2 = "HAS A FLAVOR.";
+      const elLine1 = document.getElementById('hero-line-1');
+      const elLine2 = document.getElementById('hero-line-2');
+
+      function runTypewriter(element, text, delay, onComplete) {
+        let i = 0;
+        element.classList.add('typewriter-cursor');
+        function type() {
+          if (i < text.length) {
+            element.textContent += text.charAt(i);
+            i++;
+            setTimeout(type, delay);
+          } else {
+            element.classList.remove('typewriter-cursor');
+            if (onComplete) onComplete();
+          }
+        }
+        type();
+      }
+
+      setTimeout(() => {
+        runTypewriter(elLine1, line1, 60, () => {
+          setTimeout(() => {
+            runTypewriter(elLine2, line2, 60, () => {
+              document.getElementById('hero-subtitle').classList.remove('opacity-0');
+              document.getElementById('hero-copy').classList.remove('opacity-0');
+              document.getElementById('hero-cta').classList.remove('opacity-0', 'translate-y-4');
+
+              setupDisintegrateTarget(elLine1);
+              setupDisintegrateTarget(elLine2);
+            });
+          }, 150);
+        });
+      }, 200);
+
+      // 5. ANIMATION 01: Disintegrate Engine
+      function setupDisintegrateTarget(container) {
+        if (!container || container.dataset.disintegrated === 'true') return;
+        container.dataset.disintegrated = 'true';
+
+        const originalText = container.textContent;
+        container.innerHTML = '';
+
+        const srSpan = document.createElement('span');
+        srSpan.className = 'sr-only-text';
+        srSpan.textContent = originalText;
+        container.appendChild(srSpan);
+
+        const visualSpan = document.createElement('span');
+        visualSpan.setAttribute('aria-hidden', 'true');
+        visualSpan.className = 'disintegrate-container';
+
+        [...originalText].forEach((char) => {
+          const charSpan = document.createElement('span');
+          charSpan.className = 'disintegrate-char';
+          charSpan.textContent = char === ' ' ? '\u00A0' : char;
+          visualSpan.appendChild(charSpan);
+        });
+
+        container.appendChild(visualSpan);
+        const charElements = visualSpan.querySelectorAll('.disintegrate-char');
+
+        container.addEventListener('mouseenter', () => {
+          charElements.forEach((charEl) => {
+            const offsetX = (Math.random() - 0.5) * 70;
+            const offsetY = (Math.random() - 0.7) * 50;
+            const rotate = (Math.random() - 0.5) * 60;
+            const delay = Math.random() * 120;
+
+            setTimeout(() => {
+              charEl.style.transform = `translate(${offsetX}px, ${offsetY}px) rotate(${rotate}deg)`;
+              charEl.style.opacity = '0';
+              charEl.style.filter = 'blur(5px)';
+            }, delay);
+          });
+        });
+
+        container.addEventListener('mouseleave', () => {
+          charElements.forEach((charEl) => {
+            const delay = Math.random() * 90;
+            setTimeout(() => {
+              charEl.style.transform = 'translate(0px, 0px) rotate(0deg)';
+              charEl.style.opacity = '1';
+              charEl.style.filter = 'blur(0px)';
+            }, delay);
+          });
+        });
+      }
+
+      document.querySelectorAll('.disintegrate-target').forEach(el => {
+        if (el.id !== 'hero-line-1' && el.id !== 'hero-line-2') {
+          setupDisintegrateTarget(el);
+        }
+      });
+
+      // 6. ANIMATION 03: Fragment To Form Engine
+      const reassembleEl = document.getElementById('reassemble-heading');
+      if (reassembleEl) {
+        const fullText = reassembleEl.textContent.trim();
+        reassembleEl.innerHTML = '';
+
+        const srSpan = document.createElement('span');
+        srSpan.className = 'sr-only-text';
+        srSpan.textContent = fullText;
+        reassembleEl.appendChild(srSpan);
+
+        const visualSpan = document.createElement('span');
+        visualSpan.setAttribute('aria-hidden', 'true');
+        visualSpan.className = 'reassemble-container';
+
+        [...fullText].forEach((char) => {
+          const cSpan = document.createElement('span');
+          cSpan.className = 'reassemble-char';
+          cSpan.textContent = char === ' ' ? '\u00A0' : char;
+          visualSpan.appendChild(cSpan);
+        });
+
+        reassembleEl.appendChild(visualSpan);
+        const chars = visualSpan.querySelectorAll('.reassemble-char');
+
+        let isAnimating = false;
+        reassembleEl.addEventListener('mouseenter', () => {
+          if (isAnimating) return;
+          isAnimating = true;
+
+          chars.forEach((c) => {
+            const scatterX = (Math.random() - 0.5) * 90;
+            const scatterY = (Math.random() - 0.5) * 50;
+            c.style.transform = `translate(${scatterX}px, ${scatterY}px)`;
+            c.style.opacity = '0.2';
+          });
+
+          setTimeout(() => {
+            chars.forEach((c, index) => {
+              setTimeout(() => {
+                c.style.transform = 'translate(0px, 0px)';
+                c.style.opacity = '1';
+                if (index === chars.length - 1) {
+                  isAnimating = false;
+                }
+              }, index * 20);
+            });
+          }, 250);
+        });
+      }
+
+      // 7. ANIMATION 05: Intersection Observer Scroll Reveal
+      const revealTargets = document.querySelectorAll('.scroll-reveal');
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('opacity-100', 'translate-y-0');
+            entry.target.classList.remove('opacity-0', 'translate-y-6');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      revealTargets.forEach(el => {
+        el.classList.add('transition-all', 'duration-700', 'ease-out', 'opacity-0', 'translate-y-6');
+        revealObserver.observe(el);
+      });
+    });
+
+    // Keyboard support for Modal
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeProductModal();
+      }
+    });
+  </script>
+</body>
+</html>
